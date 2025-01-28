@@ -2,7 +2,6 @@ package com.example.mytasks.ui.screens
 
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -16,16 +15,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -43,7 +38,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -63,7 +57,7 @@ import java.util.UUID
 fun TaskListScreen(
     onNewTaskClick: () -> Unit,
     onTaskClick: (Task) -> Unit
-){
+) {
     val viewModel: TaskListViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsState(TasksListUiState())
 
@@ -95,71 +89,6 @@ fun TaskListBody(
                 )
             },
             colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF03A9F4)),
-            actions = {
-                var isSearchTextFieldEnabled by remember {
-                    mutableStateOf(false)
-                }
-                var text by remember {
-                    mutableStateOf("")
-                }
-                AnimatedVisibility(visible = isSearchTextFieldEnabled) {
-                    Icon(
-                        Icons.Filled.Close,
-                        contentDescription = "ícone para fechar campo de texto de busca",
-                        Modifier
-                            .clip(CircleShape)
-                            .clickable {
-                                isSearchTextFieldEnabled = false
-                                text = ""
-                            }
-                            .padding(8.dp),
-                        tint = Color.White
-                    )
-                }
-                BasicTextField(
-                    value = text,
-                    onValueChange = {
-                        text = it
-                    }, modifier.fillMaxWidth(
-                        animateFloatAsState(
-                            targetValue = if (isSearchTextFieldEnabled) 1f else 0f,
-                            label = "basic text field width"
-                        ).value
-                    ),
-                    decorationBox = { innerTextField ->
-                        if (text.isEmpty()) {
-                            Text(
-                                text = "O que você busca?",
-                                style = TextStyle(
-                                    color = Color.White.copy(alpha = 0.5f),
-                                    fontStyle = FontStyle.Italic,
-                                    fontSize = 18.sp
-                                )
-                            )
-                        }
-                        innerTextField()
-                    },
-                    textStyle = TextStyle.Default.copy(
-                        fontSize = 18.sp,
-                        color = Color.White,
-                    ),
-                    cursorBrush = SolidColor(Color.White)
-                )
-                AnimatedVisibility(visible = !isSearchTextFieldEnabled) {
-                    Row {
-                        Icon(
-                            Icons.Filled.Search,
-                            contentDescription = "ícone de busca",
-                            Modifier
-                                .clip(CircleShape)
-                                .clickable { isSearchTextFieldEnabled = true }
-                                .padding(8.dp),
-                            tint = Color.White
-                        )
-                    }
-                }
-
-            }
         )
         Row(
             modifier = Modifier
