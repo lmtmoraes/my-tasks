@@ -111,7 +111,7 @@ fun TaskListBody(
                         tint = Color.White
                     )
                     Text(
-                        text = "Nova Tarefa",
+                        text = "New task",
                         color = Color.White,
                         fontSize = 16.sp
                     )
