@@ -130,7 +130,7 @@ fun TaskListBody(
                 )
             }
             LazyColumn(Modifier.fillMaxSize()) {
-                items(uiState.tasks) { task ->
+                items(uiState.tasks.sortedBy { it.creationDate }) { task ->
                     var showDescription by remember {
                         mutableStateOf(false)
                     }

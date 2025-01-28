@@ -10,5 +10,6 @@ data class TaskEntity(
     val id: String = UUID.randomUUID().toString(),
     val title: String,
     val description: String? = null,
-    val isCompleted: Boolean = false
+    val isCompleted: Boolean = false,
+    val creationDate: Long = System.currentTimeMillis()
 )
